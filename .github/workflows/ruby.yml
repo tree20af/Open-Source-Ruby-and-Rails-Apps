@@ -1,25 +1,36 @@
-
-# .github/workflows/ruby.yml
 name: Ruby CI
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    name: Run build
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Setup PSE
+        uses: invisirisk/pse-action@latest
+        with:
+          api_url: "https://app.stage.invisirisk.com"
+          app_token: ${{ secrets.IR_API_KEY }}
+
+      - uses: actions/checkout@v4
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2' # specify your Ruby version
+          ruby-version: '3.2.0' # specify your Ruby version
           bundler-cache: true
+
       - name: Install dependencies
         run: bundle install
-      - name: Run tests
-        run: bundle exec rspec # or your test command
- 
+
+      - name: Cleanup PSE
+        if: always()
+        uses: invisirisk/pse-action@latest
+        with:
+          cleanup: "true"
  
