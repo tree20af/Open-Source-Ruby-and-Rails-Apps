@@ -12,3 +12,4 @@ gem 'puma', '~> 6.0'     # Web server
 gem 'sass-rails', '>= 6'
 gem 'webpacker', '~> 5.0'
 gem 'jbuilder', '~> 2.7'
+gem 'jekyll', '~> 3.8', '>= 3.8.3'
